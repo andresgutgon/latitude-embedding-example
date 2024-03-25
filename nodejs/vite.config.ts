@@ -1,6 +1,9 @@
+import path from 'path'
 import honox from 'honox/vite'
+import pages from '@hono/vite-cloudflare-pages'
 import { defineConfig } from 'vite'
 
+const root = './'
 export default defineConfig(({ mode }) => {
   if (mode === 'client') {
     return {
@@ -19,7 +22,20 @@ export default defineConfig(({ mode }) => {
     }
   } else {
     return {
-      plugins: [honox({ islands: true })],
+      plugins: [
+        honox({
+          islandComponents: {
+            isIsland: (id) => {
+              const resolvedPath = path.resolve(root).replace(/\\/g, '\\\\')
+              const regexp = new RegExp(
+                `${resolvedPath}[\\\\/]app[^\\\\/]*[\\\\/]islands[\\\\/].+\.tsx?$`,
+              )
+              return regexp.test(path.resolve(id))
+            },
+          },
+        }),
+        pages()
+      ],
     }
   }
 })

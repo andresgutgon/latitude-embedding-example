@@ -1,24 +1,41 @@
 import path from 'path'
-import { islandComponents } from 'honox/vite'
+import honox from 'honox/vite'
+import pages from '@hono/vite-cloudflare-pages'
 import { defineConfig } from 'vite'
 
 const root = './'
 export default defineConfig(({ mode }) => {
-  return {
-    build: {
-      rollupOptions: {
-        input: {
-          server: '/app/server.ts',
-          styles: '/app/style.css',
-          client: '/app/client.ts',
-        },
-        manifest: true,
-        output: {
-          entryFileNames: '[name].js',
-          assetFileNames: 'static/assets/[name].[ext]',
+  if (mode === 'client') {
+    return {
+      build: {
+        rollupOptions: {
+          input: {
+            styles: '/app/style.css',
+            client: '/app/client.ts',
+          },
+          manifest: true,
+          output: {
+            assetFileNames: 'static/assets/[name].[ext]',
+          },
         },
       },
-    },
-    plugins: [islandComponents()],
+    }
+  } else {
+    return {
+      plugins: [
+        honox({
+          islandComponents: {
+            isIsland: (id) => {
+              const resolvedPath = path.resolve(root).replace(/\\/g, '\\\\')
+              const regexp = new RegExp(
+                `${resolvedPath}[\\\\/]app[^\\\\/]*[\\\\/]islands[\\\\/].+\.tsx?$`,
+              )
+              return regexp.test(path.resolve(id))
+            },
+          },
+        }),
+        pages()
+      ],
+    }
   }
 })

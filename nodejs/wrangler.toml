@@ -1,3 +1,0 @@
-name="latitude-embedding-example"
-main="app/server.ts"
-compatibility_flags = [ "nodejs_compat" ]

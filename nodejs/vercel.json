@@ -1,6 +1,7 @@
 {
   "version": 2,
   "framework": "vite",
+  "installCommand": "pnpm install",
   "devCommand": "vite",
   "buildCommand": "pnpm run build",
   "builds": [

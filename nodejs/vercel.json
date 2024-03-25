@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "framework": "vite",
+  "buildCommand": "pnpm run build",
   "builds": [
     {
       "src": "./dist/_worker.js",

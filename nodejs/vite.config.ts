@@ -6,7 +6,11 @@ export default defineConfig(({ mode }) => {
     return {
       build: {
         rollupOptions: {
-          input: ['/app/style.css'],
+          input: {
+            styles: '/app/style.css',
+            client: '/app/client.ts',
+          },
+          manifest: true,
           output: {
             assetFileNames: 'static/assets/[name].[ext]',
           },
@@ -15,7 +19,7 @@ export default defineConfig(({ mode }) => {
     }
   } else {
     return {
-      plugins: [honox()],
+      plugins: [honox({ islands: true })],
     }
   }
 })

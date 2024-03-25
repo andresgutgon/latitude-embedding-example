@@ -1,4 +1,3 @@
-import pages from '@hono/vite-cloudflare-pages'
 import honox from 'honox/vite'
 import { defineConfig } from 'vite'
 
@@ -16,7 +15,7 @@ export default defineConfig(({ mode }) => {
     }
   } else {
     return {
-      plugins: [honox(), pages()],
+      plugins: [honox()],
     }
   }
 })

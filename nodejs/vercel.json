@@ -6,7 +6,11 @@
   "buildCommand": "pnpm run build",
   "builds": [
     {
-      "src": "./dist/_worker.js",
+      "src": "package.json",
+      "use": "honox"
+    },
+    {
+      "src": "app/server.ts",
       "use": "@vercel/node"
     }
   ],
